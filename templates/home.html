@@ -1,0 +1,28 @@
+{% extends 'navbar.html' %}
+{% block content %}
+<div class="container my-3">
+    <div class="jumbotron">
+        <h1>Video Input</h1>
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="inputFile">
+            </div>
+            <p>Allowed extensions: avi, ogv, mp4</p>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="container my-3">
+    <h1>Progress</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <h3>{{ message }}</h3>
+                {% if message == 'File was successfully processed' %}
+                    <a href="/result">Watch result</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

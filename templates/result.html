@@ -1,0 +1,20 @@
+{% extends 'navbar.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="container my-2">
+            <h1>Oh now it's hiding !</h1>
+            {% for image in absent_paths %}
+                <img class="mx-auto" width="320" src="{{ image }}">
+            {% endfor %}
+        </div>
+        <div class="container">
+            <h1>Fine it returned</h1>
+            {% for image in presence_paths %}
+                <img class="mx-auto" width="320" src="{{ image }}">
+            {% endfor %}
+        </div>
+        <div class="container my-2">
+            <a class="btn btn-outline-primary btn-block" href="static/video/output1.webm" download>Download video</a>
+        </div>
+    </div>
+{% endblock %}
