@@ -2,7 +2,7 @@ import os
 import logging
 import glob
 from flask import Flask, render_template, request, flash, redirect
-from detection import detect_cup
+from r_cnn_detection import detect_cup
 
 logging.basicConfig(filename='logs.log', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.secret_key = 'some secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+STATUS = 'Processing'
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -47,6 +48,8 @@ def upload_and_detect():
             detect_cup('video/' + filename, 'static/video/' + filename)
             logging.info('File was successfully processed')
             flash('File was successfully processed')
+            global STATUS
+            STATUS = 'Finished'
             return redirect(request.url)
         else:
             logging.info('Incorrect format of file')
@@ -59,7 +62,7 @@ def upload_and_detect():
 def result():
     absent_paths = sorted(glob.glob('static/imgs/absent/*.png'))
     presence_paths = sorted(glob.glob('static/imgs/presence/*.png'))
-    return render_template('result.html', absent_paths=absent_paths, presence_paths=presence_paths)
+    return render_template('result.html', absent_paths=absent_paths, presence_paths=presence_paths,status = STATUS)
 
 
 if __name__ == '__main__':

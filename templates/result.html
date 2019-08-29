@@ -1,20 +1,52 @@
-{% extends 'navbar.html' %}
-{% block content %}
-    <div class="container-fluid">
-        <div class="container my-2">
-            <h1>Oh now it's hiding !</h1>
-            {% for image in absent_paths %}
-                <img class="mx-auto" width="320" src="{{ image }}">
-            {% endfor %}
-        </div>
-        <div class="container">
-            <h1>Fine it returned</h1>
-            {% for image in presence_paths %}
-                <img class="mx-auto" width="320" src="{{ image }}">
-            {% endfor %}
-        </div>
-        <div class="container my-2">
-            <a class="btn btn-outline-primary btn-block" href="static/video/output1.webm" download>Download video</a>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta http-equiv="refresh" content="5">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Test Task</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/result">Result</a>
+            </li>
+
+        </ul>
     </div>
-{% endblock %}
+</nav>
+<div class="container-fluid">
+    <div class="container my-2">
+        <h1>Oh now it's hiding !</h1>
+        {% for image in absent_paths %}
+            <img class="mx-auto" width="320" src="{{ image }}">
+        {% endfor %}
+    </div>
+    <div class="container">
+        <h1>Fine it returned</h1>
+        {% for image in presence_paths %}
+            <img class="mx-auto" width="320" src="{{ image }}">
+        {% endfor %}
+    </div>
+    <div class="container">
+        <p><b>Status:</b> {{ status }}</p>
+    </div>
+    <div class="container my-2">
+        <a class="btn btn-outline-primary btn-block" href="static/video/output1.webm" download>Download video</a>
+    </div>
+</div>
+</body>
+</html>
+
