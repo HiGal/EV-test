@@ -4,8 +4,8 @@ import glob
 from flask import Flask, render_template, request, flash, redirect
 from r_cnn_detection import detect_cup
 
-logging.basicConfig(filename='logs.log', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+# logging.basicConfig(filename='logs.log', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#                     level=logging.INFO)
 
 ALLOWED_EXTENSIONS = {'ogv', 'avi', 'mp4'}
 UPLOAD_FOLDER = 'video/'
@@ -15,6 +15,7 @@ app.secret_key = 'some secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 STATUS = 'Processing'
+EXTENSION = ''
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -42,7 +43,9 @@ def upload_and_detect():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            filename = "1." + file.filename.rsplit('.', 1)[1].lower()
+            global EXTENSION
+            EXTENSION = file.filename.rsplit('.', 1)[1].lower()
+            filename = "1." + EXTENSION
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             logging.info('File was successfully saved')
             detect_cup('video/' + filename, 'static/video/' + filename)
@@ -62,7 +65,7 @@ def upload_and_detect():
 def result():
     absent_paths = sorted(glob.glob('static/imgs/absent/*.png'))
     presence_paths = sorted(glob.glob('static/imgs/presence/*.png'))
-    return render_template('result.html', absent_paths=absent_paths, presence_paths=presence_paths,status = STATUS)
+    return render_template('result.html', absent_paths=absent_paths, presence_paths=presence_paths,status = STATUS, ext = EXTENSION)
 
 
 if __name__ == '__main__':
