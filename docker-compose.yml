@@ -1,0 +1,27 @@
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: onslaught/ev_test:test
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.7"
+          memory: 100M
+    ports:
+      - "4000:80"
+    networks:
+      - webnet
+networks:
+  webnet:
+
+server {
+    listen 80;
+    server_name 157.245.137.108;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/peter/flaskapp/flaskapp.sock;
+    }
+}
